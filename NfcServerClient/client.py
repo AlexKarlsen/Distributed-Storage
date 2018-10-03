@@ -6,7 +6,7 @@ def main():
     # Example
     payload = {
        "method": "writeToFile",
-       "params": {"token": "user3", "filename": "file.txt", "content": "Hello from user3"},
+       "params": {"filename": "file.txt", "content": "Hello from user3"},
        "jsonrpc": "2.0",
        "id": 0,
     }

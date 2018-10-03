@@ -1,8 +1,6 @@
 import os
 
-def getFile(token, filename):
-    filepath = token + "/" + filename
-    
+def getFile(filepath):
     #Exception handling
     if not os.path.exists(filepath):
         return "File not found"
@@ -10,15 +8,17 @@ def getFile(token, filename):
     with open(filepath, "r") as f:
         return f.read()
 
-def writeToFile(token, filename, content):
-    filepath = token + "/" + filename
-
+def writeToFile(filename, content):
     #Exception handling
-    if not os.path.exists(filepath):
-        with open(filepath, "w+") as f:
+    if not os.path.exists(filename):
+        with open(filename, "w+") as f:
             f.write(content)
     else:
         with open(filepath, "a") as f:
             f.write(content)
     
     return "Success"
+
+def createDir(dirname):
+    if not os.path.exists(dirname)
+        os.mkdir(dirname)

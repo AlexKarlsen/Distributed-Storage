@@ -6,12 +6,16 @@ from jsonrpc import JSONRPCResponseManager, dispatcher
 import methods
 
 @dispatcher.add_method
-def getFile(token, filename):
-    return methods.getFile(token, filename)
+def getFile(filename):
+    return methods.getFile(filename)
 
 @dispatcher.add_method
-def write(token, filename, content):
-    return methods.writeToFile(token, filename, content)
+def write(filename, content):
+    return methods.writeToFile(filename, content)
+
+@dispatcher.add_method
+def createDir(dirname):
+    return methods.createDir(dirname)
 
 @Request.application
 def application(request):
