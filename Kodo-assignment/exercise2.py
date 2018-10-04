@@ -34,7 +34,8 @@ def simulation(g, k, systematic=True, data=None):
     data_out = bytearray(decoder.block_size())
     decoder.set_mutable_symbols(data_out)
 
-    start = time.time() * 1000
+    print('Measurering time of encode-decode')
+    start = time.time() * 1000 # milliseconds
     while not decoder.is_complete():
         # Encode a packet into the payload buffer
         packet = encoder.write_payload()
@@ -53,8 +54,8 @@ def simulation(g, k, systematic=True, data=None):
 
     # The decoder is complete, the decoded symbols are now available in
     # the data_out buffer: check if it matches the data_in buffer
-    end = time.time() * 1000
-    print(end-start)
+    end = time.time() * 1000 # milliseconds
+    print('%s milliseconds' %(end-start))
     print("Checking results...")
     if data_out == data_in:
         print("Data decoded correctly")
