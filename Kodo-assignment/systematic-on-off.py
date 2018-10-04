@@ -26,8 +26,8 @@ def main():
     # Choose the finite field, the number of symbols (i.e. generation size)
     # and the symbol size in bytes
     field = kodo.field.binary
-    symbols = 10
-    symbol_size = 160
+    symbols = 128
+    symbol_size = 100000
 
     # Create an encoder/decoder factory that are used to build the
     # actual encoders/decoders
@@ -51,26 +51,26 @@ def main():
     print("Starting encoding / decoding...")
 
     while not decoder.is_complete():
-
+        encoder.set_systematic_on()
         # If the chosen codec stack supports systematic coding
-        if 'is_systematic_on' in dir(encoder):
+        #if 'is_systematic_on' in dir(encoder):
 
             # Toggle systematic mode with 50% probability
-            if random.choice([True, False]):
+            #if random.choice([True, False]):
 
-                if encoder.is_systematic_on():
-                    print("Turning systematic OFF")
-                    encoder.set_systematic_off()
-                else:
-                    print("Turning systematic ON")
-                    encoder.set_systematic_on()
+               # if encoder.is_systematic_on():
+              #      print("Turning systematic OFF")
+              #      encoder.set_systematic_off()
+              #  else:
+              #      print("Turning systematic ON")
+              #      encoder.set_systematic_on()
 
         # Encode a packet into the payload buffer
         packet = encoder.write_payload()
 
-        if random.choice([True, False]):
-            print("Packet dropped.")
-            continue
+        #if random.choice([True, False]):
+         #   print("Packet dropped.")
+          #  continue
 
         # Pass that packet to the decoder
         decoder.read_payload(packet)

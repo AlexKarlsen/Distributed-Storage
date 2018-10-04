@@ -2,15 +2,21 @@ import kodo
 import os
 import sys
 
-symbols = 3
-symbol_size = 10
-
+# g
+symbols = 8
+# k
+symbol_size = 160
+# finite field
 field = kodo.field.binary8
 
-def setup_encoder(g, k, systematic=True):
+def simulation(g, k, systematic=True, data=None):
     factory = kodo.RLNCEncoderFactory(field, g, k)
     encoder = factory.build()
-    data_in = bytearray(os.urandom(encoder.block_size()))
+    if data == None:
+        data_in = bytearray(os.urandom(encoder.block_size()))
+    else:
+        data_in = bytearray(data)
+    
     encoder.set_const_symbols(data_in)
     if systematic == True:
         encoder.set_systematic_off()
@@ -22,38 +28,34 @@ def setup_encoder(g, k, systematic=True):
     else:
         print("Systematic is off")
 
-    return encoder, data_in
-
-def setup_decoder(g, k):
     decoder_factory = kodo.RLNCDecoderFactory(field, g, k)
     decoder = decoder_factory.build()
     data_out = bytearray(decoder.block_size())
     decoder.set_mutable_symbols(data_out)
-    return decoder, data_out
 
-encoder, data_in = setup_encoder(symbols, symbol_size, True)
+    while not decoder.is_complete():
+        # Encode a packet into the payload buffer
+        packet = encoder.write_payload()
 
-decoder, data_out = setup_decoder(symbols, symbol_size)
+        # Pass that packet to the decoder
+        decoder.read_payload(packet)
 
-packet_number = 0
-while not decoder.is_complete():
-    # Generate an encoded packet
-    packet = encoder.write_payload()
-    print("Packet {} encoded!".format(packet_number))
+        print("Rank of decoder {}".format(decoder.rank()))
 
-    # Pass that packet to the decoder
-    decoder.read_payload(packet)
-    print("Packet {} decoded!".format(packet_number))
-    packet_number += 1
-    print("rank: {}/{}".format(decoder.rank(), decoder.symbols()))
+        # Symbols that were received in the systematic phase correspond
+        # to the original source symbols and are therefore marked as
+        # decoded
+        print("Symbols decoded {}".format(decoder.symbols_uncoded()))
 
-print("Coding finished")
+    print("Coding finished")
 
-# The decoder is complete, the decoded symbols are now available in
-# the data_out buffer: check if it matches the data_in buffer
-print("Checking results...")
-if data_out == data_in:
-    print("Data decoded correctly")
-else:
-    print("Unable to decode please file a bug report :)")
-    sys.exit(1)
+    # The decoder is complete, the decoded symbols are now available in
+    # the data_out buffer: check if it matches the data_in buffer
+    print("Checking results...")
+    if data_out == data_in:
+        print("Data decoded correctly")
+    else:
+        print("Unable to decode please file a bug report :)")
+        sys.exit(1)
+
+simulation(symbols, symbol_size)

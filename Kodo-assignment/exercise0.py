@@ -2,23 +2,32 @@ import kodo
 import os
 import sys
 
+# g
 symbols = 16
+
+# k
 symbol_size = 100000
 
+# finite field
 field = kodo.field.binary8
 
+# Create encoder
 factory = kodo.RLNCEncoderFactory(field, symbols, symbol_size)
 encoder = factory.build()
 
+# Create decoder
 decoder_factory = kodo.RLNCDecoderFactory(field, symbols, symbol_size)
 decoder = decoder_factory.build()
 
+# Define data in
 data_in = bytearray(os.urandom(encoder.block_size()))
 encoder.set_const_symbols(data_in)
 
+# Define data out
 data_out = bytearray(decoder.block_size())
 decoder.set_mutable_symbols(data_out)
 
+# Start Decoding-Encoding
 packet_number = 0
 while not decoder.is_complete():
     # Generate an encoded packet
