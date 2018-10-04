@@ -1,0 +1,93 @@
+\section{Finite Fields - Part 1}
+
+\subsection{Exercise 1: The Binary Extension Field}
+\textbf{a) Fill in the missing values in the table below.}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\begin{table}[htbp]
+    \begin{tabularx}{\textwidth}{| Y | Y | Y |}
+        \hline
+        \cellcolor{gray}\textbf{Polynomial}  & \cellcolor{gray}\textbf{Binary} & \cellcolor{gray}\textbf{Decimal} \\\hline
+        \cellcolor{lightgray}$x^7+x^6+x^4+x+1$ & 11010011 & 211 \\\hline
+        $x^7+x^6+x^3+1$ & \cellcolor{lightgray}11001001 & 201 \\\hline
+        $x^7+x^2+1$ & 10000101 & \cellcolor{lightgray}133 \\\hline
+        \cellcolor{lightgray}$x^4+x^2+x$ & 00010110 & 22 \\\hline
+        $x^4+x^3+1$ & \cellcolor{lightgray}00011001 & 25 \\\hline
+        $x^3+x$ & 00001010 & \cellcolor{lightgray}10 \\\hline
+    \end{tabularx}
+    \caption{$GF(2^m)$}
+    \label{tab:ex1a}
+\end{table}
+
+\noindent\textbf{b) In the table, what is the required value for \textit{m} in order to represent the field elements}\\
+\underline{Answer:} At least 8\\
+\underline{Reason:} $GF(2^m)$ is a binary extension fields, and all field elements may be represented as binary polynomials of degree at most $m-1$. Since the highest polynomial degree is $x^7$, $m=7+1=8$
+
+\subsection{Exercise 2: Polynomial Addition and Subtraction}
+\textbf{a)}
+\begin{align}
+    f(x)  &= (x^5 + x) + (x^3 + x^2) \\
+    &= x^5 + x^3 + x^2 + x
+\end{align}
+\indent\indent\indent or
+\begin{align}
+    &100010 \\
+    \text{XOR } &001100 \\[-2ex] 
+    \cline{1-2}
+    &101110
+\end{align}
+
+\noindent\textbf{b)}
+\begin{align}
+    f(x)  &= (x^7 + x^3) + (x^7 + x + 1) \\
+    &= (1 \oplus 1)x^7 + x^3 + x + 1\\
+    &= x^3 + x + 1
+\end{align}
+
+\noindent\textbf{c)}
+\begin{align}
+    f(x)  &= (x^3 + x^2 + x + 1) + (x + 1) \\
+    &= x^3 + x^2 + (1 \oplus 1)x + (1 \oplus 1)1\\
+    &= x^3 + x^2
+\end{align}
+
+\noindent\textbf{d)}
+\begin{align}
+    f(x)  &= (x^7 + x^6 + x^5 + x^4 + x^3 + x^2 + 1) + (x^4 + x^2 + 1) \\
+    &= x^7 + x^6 + x^5 + (1 \oplus 1)x^4 + x^3 + (1 \oplus 1)x^2 + (1 \oplus 1)1\\
+    &= x^7 + x^6 + x^5 + x^3
+\end{align}
+
+\noindent In the binary extension field subtraction and addition are identical (based on the XOR).
+
+\noindent\textbf{e)}
+\begin{align}
+    f(x)  &= (x^5 + x) - (x^3 + x^2) \\
+    &= (x^5 + x) + (x^3 + x^2) \\
+    &= x^5 + x^3 + x^2 + x
+\end{align}
+
+\noindent\textbf{f)}
+\begin{align}
+    f(x)  &= (x^7 + x^3) - (x^7 + x + 1) \\
+    &= (x^7 + x^3) + (x^7 + x + 1) \\
+    &= (1 \oplus 1)x^7 + x^3 + x + 1\\
+    &= x^3 + x + 1
+\end{align}
+
+\noindent\textbf{g)}
+\begin{align}
+    f(x)  &= (x^3 + x^2 + x + 1) - (x + 1) \\
+    &= (x^3 + x^2 + x + 1) + (x + 1) \\
+    &= x^3 + x^2 + (1 \oplus 1)x + (1 \oplus 1)1\\
+    &= x^3 + x^2
+\end{align}
+
+\noindent\textbf{h)}
+\begin{align}
+    f(x)  &= (x^7 + x^6 + x^5 + x^4 + x^3 + x^2 + 1) - (x^4 + x^2 + 1) \\
+    &= (x^7 + x^6 + x^5 + x^4 + x^3 + x^2 + 1) + (x^4 + x^2 + 1) \\
+    &= x^7 + x^6 + x^5 + (1 \oplus 1)x^4 + x^3 + (1 \oplus 1)x^2 + (1 \oplus 1)1\\
+    &= x^7 + x^6 + x^5 + x^3
+\end{align}
+
+\pagebreak
