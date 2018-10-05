@@ -3,10 +3,10 @@ import os
 import sys
 
 # g
-symbols = 16
+symbols = 4
 
 # k
-symbol_size = 100000
+symbol_size = 16
 
 # finite field
 field = kodo.field.binary8

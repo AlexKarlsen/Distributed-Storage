@@ -93,13 +93,15 @@ def simulation(data, symbols, symbol_size, redundancy, clouds, lost=0.0):
             continue
         break
 
-    if decoder.is_complete():
-        print('Decoding completed by accessing {!s} clouds and getting {!s} payloads'.format(clouds_accessed, number_of_payloads))
-    else:
-        print('Decoding failed after accessing {!s} clouds and getting {!s} payloads'.format(clouds_accessed, number_of_payloads))
+    #if decoder.is_complete():
+    #    print('Decoding completed by accessing {!s} clouds and getting {!s} payloads'.format(clouds_accessed, number_of_payloads))
+    #else:
+    #    print('Decoding failed after accessing {!s} clouds and getting {!s} payloads'.format(clouds_accessed, number_of_payloads))
 
     if is_complete(data, data_out):
-        print('Decoding completed by accessing {!s} clouds and getting {!s} payloads'.format(clouds_accessed, number_of_payloads))
+        #print('Decoding completed by accessing {!s} clouds and getting {!s} payloads'.format(clouds_accessed, number_of_payloads))
+        return True
     else:
-        print('Decoding failed after accessing {!s} clouds and getting {!s} payloads'.format(clouds_accessed, number_of_payloads))
+        #print('Decoding failed after accessing {!s} clouds and getting {!s} payloads'.format(clouds_accessed, number_of_payloads))
+        return False
     write_bytearray_to_file('pika3.jpg', data_out)

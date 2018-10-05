@@ -9,7 +9,7 @@ symbol_size = 160
 # finite field
 field = kodo.field.binary8
 
-def simulation(g, k, systematic=True, data=None):
+def simulation(g, k, systematic=False, data=None):
     factory = kodo.RLNCEncoderFactory(field, g, k)
     encoder = factory.build()
     if data == None:
