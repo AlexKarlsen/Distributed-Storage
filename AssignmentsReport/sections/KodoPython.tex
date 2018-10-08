@@ -21,7 +21,7 @@
         \centering
         \includegraphics[width=0.4\textwidth]{figures/KodoPython/systematic_off.png}
         \caption{Systematic Off}
-        \label{fig:encode_timings}
+        \label{fig:systematic_off}
     \end{subfigure}
     \caption{Systematic On/Off}
     \label{fig:systematic_on_off}
@@ -52,7 +52,7 @@ We have altered the setup a bit, for every value of g, we have tested with k=8..
     \centering
     \includegraphics[width=0.7\textwidth]{figures/KodoPython/decode_timings.png}
     \caption{Encode Timings}
-    \label{fig:encode_timings}
+    \label{fig:decode_timings}
 \end{figure}
 
 The test shows that when g increase with a factor of 2 so does the time of computation.
@@ -66,20 +66,19 @@ Using the supplied Python and image, we have answered the following quiestions:
     We vary the loss percentage in increments of 10\% on see losses from 60\% and upwards.
     \item \textit{Does the configuration for g and k effect the above. Choose your own g and k.}\\
     \begin{table}[H]
-        \newcolumntype{Y}{>{\centering\arraybackslash}X}
         \begin{tabularx}{\textwidth}{|Y|Y|Y|Y|}
             \hline
-            g & k & 50\% Loss & 60\% Loss \\\hline
-            64 & 1024 & False& False\\\hline
-            64 & 2048 & True & False\\\hline
-            64 & 4096 & True & True\\\hline
-            64 & 8192 & True & True\\\hline
-            64 & 16384 & True& True\\\hline
-            128 & 1024 & True& False\\\hline
-            128 & 2048 & True& True\\\hline
-            128 & 2096 & True& True\\\hline
-            128 & 8192 & True& True\\\hline
-            128 & 16384 & True& True\\\hline
+            \cellcolor{gray}g & \cellcolor{gray}k & \cellcolor{gray}50\% Loss & \cellcolor{gray}60\% Loss \\\hline
+            \cellcolor{lightgray}64 & \cellcolor{lightgray}1024 & \textcolor{red}{False}& \textcolor{red}{False}\\\hline
+            \cellcolor{lightgray}64 & \cellcolor{lightgray}2048 & \textcolor{green}{True} & \textcolor{red}{False}\\\hline
+            \cellcolor{lightgray}64 & \cellcolor{lightgray}4096 & \textcolor{green}{True} & \textcolor{green}{True}\\\hline
+            \cellcolor{lightgray}64 & \cellcolor{lightgray}8192 & \textcolor{green}{True} & \textcolor{green}{True}\\\hline
+            \cellcolor{lightgray}64 & \cellcolor{lightgray}16384 & \textcolor{green}{True} & \textcolor{green}{True}\\\hline
+            \cellcolor{lightgray}128 & \cellcolor{lightgray}1024 & \textcolor{green}{True} & \textcolor{red}{False}\\\hline
+            \cellcolor{lightgray}128 & \cellcolor{lightgray}2048 & \textcolor{green}{True} & \textcolor{green}{True}\\\hline
+            \cellcolor{lightgray}128 & \cellcolor{lightgray}2096 & \textcolor{green}{True} & \textcolor{green}{True}\\\hline
+            \cellcolor{lightgray}128 & \cellcolor{lightgray}8192 & \textcolor{green}{True} & \textcolor{green}{True}\\\hline
+            \cellcolor{lightgray}128 & \cellcolor{lightgray}16384 & \textcolor{green}{True} & \textcolor{green}{True}\\\hline
         \end{tabularx}
         \caption{Picture recreation success}
         \label{tab:Exercise3}
