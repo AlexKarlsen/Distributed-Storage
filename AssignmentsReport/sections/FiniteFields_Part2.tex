@@ -1,5 +1,11 @@
 \section{Finite Fields - Part 2}
-\begin{matlabcode}
+\begin{par}
+    \begin{flushleft}
+    We are to construct the addition and multiplication table for $\mathrm{GF}\left(2^3 \right)$ with the primitive polynomail $x^3 +x^2 +1$
+    \end{flushleft}
+    \end{par}
+    
+    \begin{matlabcode}
     clear;clc;
     x = [];
     for i = 0:7
@@ -33,7 +39,15 @@
         end
     end
     
-    %Print
+    \end{matlabcode}
+    
+    \begin{par}
+    \begin{flushleft}
+    The table of addition of the finite field is printet below:
+    \end{flushleft}
+    \end{par}
+    
+    \begin{matlabcode}
     AddTable
     \end{matlabcode}
     \begin{matlaboutput}
@@ -48,6 +62,13 @@
        7   6   5   4   3   2   1   0
     
     \end{matlaboutput}
+    
+    \begin{par}
+    \begin{flushleft}
+    The table of multiplication of the finite field is printet below:
+    \end{flushleft}
+    \end{par}
+    
     \begin{matlabcode}
     MulTable
     \end{matlabcode}
