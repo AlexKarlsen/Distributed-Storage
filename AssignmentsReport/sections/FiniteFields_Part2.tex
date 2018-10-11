@@ -1,87 +1,188 @@
 \section{Finite Fields - Part 2}
-\begin{par}
-    \begin{flushleft}
-    We are to construct the addition and multiplication table for $\mathrm{GF}\left(2^3 \right)$ with the primitive polynomail $x^3 +x^2 +1$
-    \end{flushleft}
-    \end{par}
-    
-    \begin{matlabcode}
-    clear;clc;
-    x = [];
-    for i = 0:7
-        for j = 0:7
-            x = [x ; [i j]];
-        end
-    end
-    gf = gf(x,3,'D3+D2+1');
-    
-    % Addition
-    AddTable = zeros(7,7,'uint32');
-    for i = 1:8
-        for j = 1:8
-            z = j +  (i-1)*8;
-            v1 = gf(z,1);
-            v2 = gf(z,2);
-            tmp = v1 + v2;
-            AddTable(i,j) = tmp.x;
-        end
-    end
-    
-    % Multiply
-    MulTable = zeros(7,7,'uint32');
-    for i = 1:8
-        for j = 1:8
-            z = j +  (i-1)*8;
-            v1 = gf(z,1);
-            v2 = gf(z,2);
-            tmp = v1 * v2;
-            MulTable(i,j) = tmp.x;
-        end
-    end
-    
-    \end{matlabcode}
-    
-    \begin{par}
-    \begin{flushleft}
-    The table of addition of the finite field is printet below:
-    \end{flushleft}
-    \end{par}
-    
-    \begin{matlabcode}
-    AddTable
-    \end{matlabcode}
-    \begin{matlaboutput}
-    AddTable = 8x8 uint32 matrix    
-       0   1   2   3   4   5   6   7
-       1   0   3   2   5   4   7   6
-       2   3   0   1   6   7   4   5
-       3   2   1   0   7   6   5   4
-       4   5   6   7   0   1   2   3
-       5   4   7   6   1   0   3   2
-       6   7   4   5   2   3   0   1
-       7   6   5   4   3   2   1   0
-    
-    \end{matlaboutput}
-    
-    \begin{par}
-    \begin{flushleft}
-    The table of multiplication of the finite field is printet below:
-    \end{flushleft}
-    \end{par}
-    
-    \begin{matlabcode}
-    MulTable
-    \end{matlabcode}
-    \begin{matlaboutput}
-    MulTable = 8x8 uint32 matrix    
-       0   0   0   0   0   0   0   0
-       0   1   2   3   4   5   6   7
-       0   2   4   6   5   7   1   3
-       0   3   6   5   1   2   7   4
-       0   4   5   1   7   3   2   6
-       0   5   7   2   3   6   4   1
-       0   6   1   7   2   4   3   5
-       0   7   3   4   6   1   5   2
-    
-    \end{matlaboutput}
-    \pagebreak
+
+\subsection{Exercise 1}
+For $GF(2^3)$ with primitive polynomial $x^3+x^2+1$\\
+
+\noindent\textbf{a) Addition table}\\
+...
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{| Y | Y | Y | Y | Y | Y | Y | Y | Y |}
+        \hline
+        \cellcolor{lightgray} & \cellcolor{lightgray}0 & \cellcolor{lightgray}1 & \cellcolor{lightgray}2 & \cellcolor{lightgray}3 & \cellcolor{lightgray}4 & \cellcolor{lightgray}5 & \cellcolor{lightgray}6 & \cellcolor{lightgray}7 \\\hline
+        \cellcolor{lightgray}0 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\\hline
+        \cellcolor{lightgray}1 & 1 & 0 & 3 & 2 & 5 & 4 & 7 & 6 \\\hline
+        \cellcolor{lightgray}2 & 2 & 3 & 0 & 1 & 6 & 7 & 4 & 5 \\\hline
+        \cellcolor{lightgray}3 & 3 & 2 & 1 & 0 & 7 & 6 & 5 & 4 \\\hline
+        \cellcolor{lightgray}4 & 4 & 5 & 6 & 7 & 0 & 1 & 2 & 3 \\\hline
+        \cellcolor{lightgray}5 & 5 & 4 & 7 & 6 & 1 & 0 & 3 & 2 \\\hline
+        \cellcolor{lightgray}6 & 6 & 7 & 4 & 5 & 2 & 3 & 0 & 1 \\\hline
+        \cellcolor{lightgray}7 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\\hline
+    \end{tabularx}
+    \caption{Addition table}
+    \label{tab:ff21a}
+\end{table}
+\noindent\textbf{b) Multiplication table}\\
+...
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{| Y | Y | Y | Y | Y | Y | Y | Y | Y |}
+        \hline
+        \cellcolor{lightgray} & \cellcolor{lightgray}0 & \cellcolor{lightgray}1 & \cellcolor{lightgray}2 & \cellcolor{lightgray}3 & \cellcolor{lightgray}4 & \cellcolor{lightgray}5 & \cellcolor{lightgray}6 & \cellcolor{lightgray}7 \\\hline
+        \cellcolor{lightgray}0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\\hline
+        \cellcolor{lightgray}1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\\hline
+        \cellcolor{lightgray}2 & 0 & 2 & 4 & 6 & 5 & 7 & 1 & 3 \\\hline
+        \cellcolor{lightgray}3 & 0 & 3 & 6 & 5 & 1 & 2 & 7 & 4 \\\hline
+        \cellcolor{lightgray}4 & 0 & 4 & 5 & 1 & 7 & 3 & 2 & 6 \\\hline
+        \cellcolor{lightgray}5 & 0 & 5 & 7 & 2 & 3 & 6 & 4 & 1 \\\hline
+        \cellcolor{lightgray}6 & 0 & 6 & 1 & 7 & 2 & 4 & 3 & 5 \\\hline
+        \cellcolor{lightgray}7 & 0 & 7 & 3 & 4 & 6 & 1 & 5 & 2 \\\hline
+    \end{tabularx}
+    \caption{Multiplication table}
+    \label{tab:ff21b}
+\end{table}
+
+\subsection{Exercise 2}
+\begin{align}
+    G = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 \\
+        1 & 2 & 3 & 4 \\
+        1 & 4 & 5 & 7 \\
+        1 & 5 & 2 & 6 \\
+        1 & 7 & 6 & 2 \\
+        1 & 3 & 7 & 5
+    \end{bmatrix}
+\end{align}
+
+\noindent\textbf{a) Select rows 1, 2, 5 and 6 and perform Gaussian Elimination on the resulting matrix.}\\
+\begin{align}
+    G = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 \\
+        1 & 2 & 3 & 4 \\
+        1 & 7 & 6 & 2 \\
+        1 & 3 & 7 & 5 \\
+        1 & 4 & 5 & 7 \\
+        1 & 5 & 2 & 6         
+    \end{bmatrix}
+\end{align}
+
+\noindent\textbf{b) Calculate the transpose of G, i.e., $G^T$}\\
+\begin{align}
+    G_{sys} = G^T = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        1 & 2 & 7 & 3 & 4 & 5 \\
+        1 & 3 & 6 & 7 & 5 & 2 \\
+        1 & 4 & 2 & 5 & 7 & 6 
+    \end{bmatrix}
+\end{align}
+
+\noindent\textbf{c) Calculate Gaussian elimination on $G^T$ to obtain $G_{sys} = [I : R]$}\\
+Subtracting row 1 from all other rows, to get 0's: \\
+\begin{align}
+    G_{sys} = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        0 & 3 & 6 & 2 & 5 & 4 \\
+        0 & 2 & 7 & 6 & 4 & 3 \\
+        0 & 5 & 3 & 4 & 6 & 7 
+    \end{bmatrix}
+\end{align}
+Multiplying: \\row 2 by 4 \\row 3 by 6 \\row 4 by 7, to get 1's in column 2, as seen in \ref{tab:ff21b}: \\
+\begin{align}
+    G_{sys} = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        0 & 1 & 2 & 5 & 3 & 7 \\
+        0 & 1 & 5 & 3 & 2 & 7 \\
+        0 & 1 & 4 & 6 & 5 & 2 
+    \end{bmatrix}
+\end{align}
+Subtracting row 2 from 3 and 4 to get 0's \\
+\begin{align}
+    G_{sys} = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        0 & 1 & 2 & 5 & 3 & 7 \\
+        0 & 0 & 7 & 6 & 1 & 0 \\
+        0 & 0 & 6 & 3 & 6 & 5 
+    \end{bmatrix}
+\end{align}
+Multiplying: \\row 3 by 5 \\row 4 by 2, to get 1's in column 3, as seen in \ref{tab:ff21b}: \\
+\begin{align}
+    G_{sys} = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        0 & 1 & 2 & 5 & 3 & 7 \\
+        0 & 0 & 1 & 4 & 5 & 0 \\
+        0 & 0 & 1 & 6 & 1 & 7 
+    \end{bmatrix}
+\end{align}
+Subtracting row 3 from 4 to get a 0 \\
+\begin{align}
+    G_{sys} = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        0 & 1 & 2 & 5 & 3 & 7 \\
+        0 & 0 & 1 & 4 & 5 & 0 \\
+        0 & 0 & 0 & 2 & 4 & 7 
+    \end{bmatrix}
+\end{align}
+Multiplying row 4 by 6 , to get a 1 in column 4, as seen in \ref{tab:ff21b}: \\
+\begin{align}
+    G_{sys} = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 1 & 1 & 1 \\
+        0 & 1 & 2 & 5 & 3 & 7 \\
+        0 & 0 & 1 & 4 & 5 & 0 \\
+        0 & 0 & 0 & 1 & 2 & 5 
+    \end{bmatrix}
+\end{align} 
+Subtracting \\ row 4 times 4 $[$ 0 0 0 4 5 3 $]$ from row 3 \\row 4 times 5 $[$ 0 0 0 5 7 6 $]$ from row 2 \\ row 4 from row 1:\\
+\begin{align}
+    G_{sys} = 
+    \begin{bmatrix}
+        1 & 1 & 1 & 0 & 3 & 4 \\
+        0 & 1 & 2 & 0 & 4 & 1 \\
+        0 & 0 & 1 & 0 & 0 & 3 \\
+        0 & 0 & 0 & 1 & 2 & 5 
+    \end{bmatrix}
+\end{align} 
+Subtracting \\row 3 times 2 $[$ 0 0 2 0 0 6 $]$ from row 2 \\ row 3 from row 1:\\
+\begin{align}
+    G_{sys} = 
+    \begin{bmatrix}
+        1 & 1 & 0 & 0 & 3 & 7 \\
+        0 & 1 & 0 & 0 & 4 & 7 \\
+        0 & 0 & 1 & 0 & 0 & 3 \\
+        0 & 0 & 0 & 1 & 2 & 5 
+    \end{bmatrix}
+\end{align} 
+Subtracting row 2 from row 1:\\
+\begin{align}
+    G_{sys} = 
+    \begin{bmatrix}
+        1 & 0 & 0 & 0 & 7 & 0 \\
+        0 & 1 & 0 & 0 & 4 & 7 \\
+        0 & 0 & 1 & 0 & 0 & 3 \\
+        0 & 0 & 0 & 1 & 2 & 5 
+    \end{bmatrix}
+\end{align} 
+
+\noindent\textbf{d) Calculate the transpose of $G_{sys}$ to obtain a systematic RS generator matrix using the Vandermonde matrix.}\\
+\begin{align}
+    G = G_{sys}^T = 
+    \begin{bmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1 \\
+        7 & 4 & 0 & 2 \\
+        0 & 7 & 3 & 5
+    \end{bmatrix}
+\end{align}
+
+\noindent\textbf{e) As in a previous example, select rows 1, 2, 5 and 6 of $G_{sys}$ and perform Gaussian Elimination on the resulting matrix.}\\
+...
+
+\pagebreak
