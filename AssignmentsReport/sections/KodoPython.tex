@@ -1,6 +1,10 @@
 \section{Kodo-python}
 
 \subsection{Exercise 0:}
+It took about 20 minutes to get the product installing once the license was granted. The process to acquire the license could have been easier than signing up for a license using a google docs template. Even though Steinwurf quickly responded with permission we did not get a Github Notification as we assumed we would. Then a couple days later when we wanted to install the library we couldn't figure out how to get access. After a while we found a mail that granted me access. This was the part that took the most time. We guess if the process of granting permissions to the repositories had been smoother, the experience would have been better.
+
+The installation process was fairly simple for people accustomed to computer terminals. On a mac it was go to the cloned repository in the terminal and execute to command and that almost it. To use and thus verify the installation the guide suggests two ways of doing so. Either copy the kodo.so file to the folder or add it to Python Path. We ended up copying the file, even though we found the other solution the most elegant one, however we couldn't get it to work.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.2\textwidth]{figures/KodoPython/encode_decode.png}
@@ -63,8 +67,12 @@ Using the supplied Python and image, we have answered the following quiestions:
 \begin{enumerate}
     \item \textit{How many clouds can you take down before it becomes impossible to decode the image.}\\
     Our setup: g=128, k=1024, 5 redundancy and 20 clouds.
-    We vary the loss percentage in increments of 10\% on see losses from 60\% and upwards.
+    We vary the loss percentage of clouds crashes in increments of 10\%. We are not able to recreate the file from 60\% cloud crashes and upwards.
     \item \textit{Does the configuration for g and k effect the above. Choose your own g and k.}\\
+    We altered the storage\_simulation.py to return true/false by comparing the initial image with the restored one.
+    We've chosen to simulate with 50\% and 60\% cloud losses as this is the area where the recreation gets problematic.
+    We setup main.py to run simulations with varying g and k, the results are given in table \cref{tab:Exercise3}.
+    The results show that for small g and k the clouds are not able to recreate the file.
     \begin{table}[H]
         \begin{tabularx}{\textwidth}{|Y|Y|Y|Y|}
             \hline
@@ -85,16 +93,18 @@ Using the supplied Python and image, we have answered the following quiestions:
     \end{table}
 
     \item \textit{Reflect on what you observe}\\
+    Increaing g and k adds further redundancy to the storage system by trading-off the file sizes and thus the storage capacity.  
     
 \end{enumerate}
-
-
-
 
 \subsection{Exercise 4:}
 \underline{\textit{Why RLNC should/shouldn't be used in distributed storage, and if you see an alternative:}}\\
 First and foremost RLNC can be used to provide reliability in cloud setups. Our setup showed the critical point for
 fault tolerance is above 50\%, which is descent enough. 
 However, we have only tested when it's critical   
+
+\subsection{Reflection}
+The library was easy enough to use for this exercise. However, to do it from scratch probably would have been more troublesome due to lack of API description.
+We encountered a problem running the storage simulator for g < 64 and k < 1024. The problem did not occur at all with g and k above the mentioned.
 
 \pagebreak
