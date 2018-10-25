@@ -4,7 +4,7 @@
 For $GF(2^3)$ with primitive polynomial $x^3+x^2+1$\\
 
 \noindent\textbf{a) Addition table}\\
-...
+Addition is performed as a simple XOR
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{| Y | Y | Y | Y | Y | Y | Y | Y | Y |}
         \hline
@@ -22,7 +22,22 @@ For $GF(2^3)$ with primitive polynomial $x^3+x^2+1$\\
     \label{tab:ff21a}
 \end{table}
 \noindent\textbf{b) Multiplication table}\\
-...
+In the following are given three examples of how multiplication is performed:\\
+\textbf{I)} When the muliplication result is within the allowed bound:
+\begin{align}
+    2\cdot3 => 010 \cdot 011 => (x)\cdot(x+1) = x^2 + x => 110 => 6
+\end{align}
+\textbf{II)} When the multiplication results needs to be reduced once:
+\begin{align}
+    &4\cdot7 => 100 \cdot 111 => (x^2) \cdot (x^2+x+1) = x^4+x^3+x^2 => 11100 \\
+    &11100 \text{ XOR } 1101x = 00110 => 6
+\end{align}
+\textbf{III)} When the multiplication results needs to be reduced multiple times:
+\begin{align}
+    &6\cdot7 => 110 \cdot 111 => (x^2+x) \cdot (x^2+x+1) = x^4 + 2x^3 + 2x^2 + x = x^4 + x => 10010 \\
+    &10010 \text{ XOR } 1101x = 01000 = 1000 \\
+    &1000 \text{ XOR } 1101 = 00101 => 5
+\end{align}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{| Y | Y | Y | Y | Y | Y | Y | Y | Y |}
         \hline
