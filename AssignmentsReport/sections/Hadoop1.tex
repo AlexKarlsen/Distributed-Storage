@@ -1,0 +1,26 @@
+\section{Hadoop 1}
+
+\textbf{Hadoop Replication Strategy}
+\begin{enumerate}
+    \item One replica on local node
+    \item Second replica on a remote rack
+    \item Third replica on same remote rack
+    \item Additional replicas are randomly placed
+\end{enumerate}
+
+\textbf{Problem}
+\begin{itemize}
+    \item[\textbf{P1}] How would Hadoop create 3 replicas in total? Write all set of nodes that could be selected\\
+    $P = \{3,4\} v \{5,6\}$
+    \item[\textbf{P2}] The time $T1$ to replicate D bits from Node 1 using the sets from P1\\
+    $T1(D)=\frac{S}{D}+\frac{F}{D}$ 
+    \item[\textbf{P3}] The time $T2$ to replicate to two racks take Node 3 and Node 5 and the gain factor $G=\frac{T2}{T1}$\\
+    $T2(D)=2\cdot\frac{S}{D}$ \\
+    $G=\frac{T2}{T1}=2\cdot\frac{\frac{S}{D}}{\frac{S}{D}+\frac{F}{D}}=\frac{2S}{F+S}$
+    \item[\textbf{P4}] Compute average time $T3$ using 4 replicas and $T4$ using 5 replicas\\
+    $T3(D)=2\cdot\frac{S}{D}+\frac{F}{D}$ \\
+    The first part would follow the same procedure as $T1$, the next replication would be selected at random (between node 2, 5 or 6, e.g. on a other rack)
+    The first 3 replicas will follow a consistent pattern. The following replicas are selected at random. \\
+    $T4(D)=2\cdot\frac{S}{D}+2\cdot\frac{F}{D} \text{ v } 3\cdot\frac{S}{D}+\frac{F}{D}$ \\
+    In this case there are two scenarios either the inter-rack or intra-rack, depending on which node was randomly chosen as the fourth node (and fifth).
+\end{itemize}
