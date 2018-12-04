@@ -6,13 +6,15 @@ import requests as req
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 UPLOAD_FOLDER = './uploads'
 
-store = ['http://127.0.0.1:5000/store']
-replica = ['http://127.0.0.1:5000/replicate']
+store = ['http://raspberry2.local:5001/api/e2/store','http://raspberry3.local:5001/api/e2/store', 'http://raspberry2.local:5001/api/e2/store']
+replica = ['http://raspberry2.local:5001/api/e2/replicate']
 
-def process(folder, file):
-    print(file)
-    r = req.post(store[0], files={'file': file})
-    print(r.text)
+def process(folder, fp):
+    print(fp)
+    response = req.post(store[0], files={'file':
+                            (fp.filename, fp.stream,
+                            fp.content_type, fp.headers)})
+    print(response)
 
 @app.route('/')
 @app.route('/index')
@@ -22,13 +24,15 @@ def index():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if (request.method == 'POST'):
-        file = request.files['file']
-        print(file)
-        # Should not be stored on lead
-        file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-        fileToSend = open(os.path.join(UPLOAD_FOLDER, file.filename), 'rb')
+        fp = request.files['file']
         
-        process('replicas', fileToSend)
+        
+        #print(request.headers)
+        # Should not be stored on lead
+        #file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+        #fileToSend = open(os.path.join(UPLOAD_FOLDER, file.filename), 'rb')
+        
+        process('replicas', fp)
         return 'Success'
     else:
         return '''
