@@ -2,12 +2,14 @@ import os
 from app import app
 from flask import request, Response
 import requests as req
+import time
+from random import randint
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 UPLOAD_FOLDER = './uploads'
 
-store = ['http://raspberry2.local:5001/api/e2/store','http://raspberry3.local:5001/api/e2/store', 'http://raspberry2.local:5001/api/e2/store']
-replica = ['http://raspberry2.local:5001/api/e2/replicate']
+store = ['http://raspberrypi2.local:5000/api/e2/store','http://raspberrypi3.local:5000/api/e2/store', 'http://raspberrypi4.local:5000/api/e2/store']
+replica = ['http://raspberrypi2.local:5000/api/e2/replicate','http://raspberrypi3.local:5000/api/e2/replicate', 'http://raspberrypi4.local:5000/api/e2/replicate']
 
 def process(folder, fp):
     print(fp)
@@ -21,19 +23,18 @@ def process(folder, fp):
 def index():
     return "Hello, World!"
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
+@app.route('/e2/store/upload/<k>', methods=['GET', 'POST'])
+def uploadStore(k):
     if (request.method == 'POST'):
+        start = time.time()
         fp = request.files['file']
-        
-        
-        #print(request.headers)
-        # Should not be stored on lead
-        #file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-        #fileToSend = open(os.path.join(UPLOAD_FOLDER, file.filename), 'rb')
-        
-        process('replicas', fp)
-        return 'Success'
+        k = int(k)
+        for i in range(k):
+            req.post(store[i], files={'file':
+                (fp.filename, fp.stream,
+                fp.content_type, fp.headers)})
+        end = time.time()
+        return 'Success, time elapsed: ' + str(end - start) + 's'  
     else:
         return '''
         <!doctype html>
@@ -44,6 +45,31 @@ def upload():
         <input type=submit value=Upload>
         </form>
         '''
+
+@app.route('/e2/replicate/upload/<k>', methods=['GET', 'POST'])
+def uploadReplicate(k):
+    if (request.method == 'POST'):
+        start = time.time()
+        fp = request.files['file']
+        rand = randint(0,2)
+        k = int(k)
+        req.post(replica[rand] + '/' + str(k-1), files={'file':
+            (fp.filename, fp.stream,
+            fp.content_type, fp.headers)}, data = {'hist': [rand]})
+        end = time.time()
+        return 'Success, time elapsed: ' + str(end - start)+ 's'  
+    else:
+        return '''
+        <!doctype html>
+        <title>Upload new File</title>
+        <h1>Upload new File</h1>
+        <form method=post enctype=multipart/form-data>
+        <p><input type=file name=file>
+        <input type=submit value=Upload>
+        </form>
+        '''
+
+
 @app.route('/download', defaults={'directory': None})
 @app.route('/download/<directory>', methods=['GET'])
 def download(directory):

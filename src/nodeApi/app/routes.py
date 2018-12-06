@@ -2,6 +2,7 @@ from app import app
 from flask import Flask, request, Response
 import os
 import requests as req
+from random import randint
 
 @app.route('/')
 @app.route('/index')
@@ -22,11 +23,20 @@ def store():
 @app.route('/api/e2/replicate/<replicaNo>', methods=["POST"])
 def replicate(replicaNo):
     fp = request.files['file']
+    json = request.data
+    print(json)
+    hist = json['hist']
     directory = './replicas/'
     fp.save(os.path.join(directory, fp.filename))
-
+    replicaNo = int(replicaNo)
     if (replicaNo > 1):
-        forward(fp, replicaNo-1)
+        rand = randint(0, 2)
+        while rand in hist:
+            rand = randint(0, 2)
+        hist.append(rand)
+        req.post(replica[rand] + '/' + str(replicaNo - 1), files={'file':
+            (fp.filename, fp.stream,
+            fp.content_type, fp.headers)}, json={'hist': hist})
     return "Success"
 
 @app.route('/api/e3/store', methods=["POST"])
@@ -36,10 +46,3 @@ def store_rlnc():
 @app.route('/api/e3/replicate', methods=["POST"])
 def replicate_rlnc():
     return "Success"
-
-def forward(fp, replicaNo):
-    print(fp)
-    response = req.post(replica[0], files={'file':
-                            (fp.filename, fp.stream,
-                            fp.content_type, fp.headers)})
-    print(response)
