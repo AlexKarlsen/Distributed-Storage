@@ -1,30 +1,32 @@
 \section{Replication}
-
+We investigate two replication schemes, Case A where the lead node distributes the file directly to all nodes and Case B where the lead node delegates to other nodes to generate the next replicas. \\
+The time to generate all replicas, can be defined by the number of replicas $k$, the data rate $R$, the size of the file in bits $s$ and computation time $T_{process}$. 
 \subsubsection*{Time to generate all replicas}
 \textit{Case A:} 
 \begin{align}
-    T_{gen} = kR + ?
+    T_{gen} = k\cdot R\cdot s + T_{process}
 \end{align}
 \textit{Case B:} 
 \begin{align}
-    T_{gen} = kR + ?
+    T_{gen} = k\cdot R\cdot s + T_{process}
 \end{align}
 
+The time to to generate all the replicas for both schemes are more or less the same, since the amount of data to be transferred is the same. 
 
 \subsubsection*{Time for lead node to finish}
 \textit{Case A:}
 \begin{align}
-    T_{lead} = kR + ?
+    T_{lead} = k\cdot R\cdot s + T_{process}
 \end{align}
 \textit{Case B:}
 \begin{align}
-    T_{lead} = R + ?
+    T_{lead} = R \cdot s + T_{process}
 \end{align}
 The lead node is freed earlier in the latter case. In this case it only has to send to one other node, instead of $k$.
 
 \subsubsection*{Access time}
 \begin{align}
-    T_{access} = R + ?
+    T_{access} = R \cdot s + T_{process}
 \end{align}
 
 \subsubsection*{Measurements}
