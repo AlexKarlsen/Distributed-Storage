@@ -1,13 +1,31 @@
 \section{Erasure Coded Storage}
+In the following two schemes is investigated; Case A where the lead node performs the encoding and Case B where the lead node delegates to another node to perform the encoding.\\
+The time to encode and store, can be defined by the number of tolerated failures k, the data rate R, the size of the file in bits s, computation time, and the time to encode $R_{enc}$ and decode $R_{dec}$.
 
 \subsubsection*{Time to generate redundancy}
-...
+\textit{Case A:} 
+\begin{align}
+    T_{gen} = ...
+\end{align}
+\textit{Case B:} 
+\begin{align}
+    T_{gen} = ...
+\end{align}
 
 \subsubsection*{Time for lead node to finish}
-...
+\textit{Case A:} 
+\begin{align}
+    T_{lead} = R \cdot s + R_{enc} \cdot s + R \cdot ...
+\end{align}
+\textit{Case B:} 
+\begin{align}
+    T_{lead} = 2R \cdot s
+\end{align}
 
 \subsubsection*{Access time}
-...
+\begin{align}
+    T_{access} = R \cdot ... + R_{dec} + R \cdot s
+\end{align}
 
 \subsubsection*{Measurements}
 ...

@@ -1,14 +1,15 @@
 \section{Replication}
-We investigate two replication schemes, Case A where the lead node distributes the file directly to all nodes and Case B where the lead node delegates to other nodes to generate the next replicas. \\
+In the following two schemes is investigated; Case A where the lead node distributes the file directly to all nodes and Case B where the lead node delegates to other nodes to generate the next replicas. \\
 The time to generate all replicas, can be defined by the number of replicas $k$, the data rate $R$, the size of the file in bits $s$ and computation time $T_{process}$. 
+
 \subsubsection*{Time to generate all replicas}
 \textit{Case A:} 
 \begin{align}
-    T_{gen} = k\cdot R\cdot s + T_{process}
+    T_{gen} = (k+1)\cdot R\cdot s + T_{process}
 \end{align}
 \textit{Case B:} 
 \begin{align}
-    T_{gen} = k\cdot R\cdot s + T_{process}
+    T_{gen} = (k+1)\cdot R\cdot s + T_{process}
 \end{align}
 
 The time to to generate all the replicas for both schemes are more or less the same, since the amount of data to be transferred is the same. 
@@ -16,18 +17,28 @@ The time to to generate all the replicas for both schemes are more or less the s
 \subsubsection*{Time for lead node to finish}
 \textit{Case A:}
 \begin{align}
-    T_{lead} = k\cdot R\cdot s + T_{process}
+    T_{lead} = (k+1)\cdot R\cdot s + T_{process}
 \end{align}
 \textit{Case B:}
 \begin{align}
-    T_{lead} = R \cdot s + T_{process}
+    T_{lead} = 2R \cdot s + T_{process}
 \end{align}
 The lead node is freed earlier in the latter case. In this case it only has to send to one other node, instead of $k$.
 
 \subsubsection*{Access time}
 \begin{align}
-    T_{access} = R \cdot s + T_{process}
+    T_{access} = 2R \cdot s + T_{process}
 \end{align}
 
 \subsubsection*{Measurements}
-...
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		\cellcolor{lightgray}\textbf{Size} & \cellcolor{lightgray}\textbf{Time Case A [s]} & \cellcolor{lightgray}\textbf{Time Case B [s] (k=2)} & \cellcolor{lightgray}\textbf{Time Case B [s] (k=3)} \\ \hline
+		10KB & ...  & ... & ... \\ \hline
+	\end{tabular}
+	\caption{Measurements}
+	\label{tab:e2meas}
+\end{table}
