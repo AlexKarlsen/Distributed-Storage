@@ -4,24 +4,24 @@ The time to generate all replicas, can be defined by the number of replicas $k$,
 
 \subsubsection*{Time to generate all replicas}
 \textit{Case A:} 
-\begin{align}
-    T_{gen} = (k+1)\cdot R\cdot s + T_{process}
+\begin{align} 
+    T_{gen} = (k+1)\cdot R\cdot s + T_{process} \label{eq:e2_rep_A}
 \end{align}
 \textit{Case B:} 
 \begin{align}
-    T_{gen} = (k+1)\cdot R\cdot s + T_{process}
+    T_{gen} = (k+1)\cdot R\cdot s + T_{process} \label{eq:e2_rep_B}
 \end{align}
 
 The time to to generate all the replicas for both schemes are more or less the same, since the amount of data to be transferred is the same. 
 
 \subsubsection*{Time for lead node to finish}
 \textit{Case A:}
-\begin{align}
-    T_{lead} = (k+1)\cdot R\cdot s + T_{process}
+\begin{align} 
+    T_{lead} = (k+1)\cdot R\cdot s + T_{process} \label{eq:e2_lead_A}
 \end{align}
 \textit{Case B:}
-\begin{align}
-    T_{lead} = 2R \cdot s + T_{process}
+\begin{align} 
+    T_{lead} = 2R \cdot s + T_{process} \label{eq:e2_lead_B}
 \end{align}
 The lead node is freed earlier in the latter case. In this case it only has to send to one other node, instead of $k$.
 
@@ -33,16 +33,19 @@ The lead node is freed earlier in the latter case. In this case it only has to s
 \subsubsection*{Measurements}
 
 \begin{table}[H]
-	\centering
-	\begin{tabular}{|l|l|l|l|}
-		\hline
-		\cellcolor{lightgray}\textbf{Size} & \cellcolor{lightgray}\textbf{Time Case A [s]} & \cellcolor{lightgray}\textbf{Time Case B [s] (k=2)} & \cellcolor{lightgray}\textbf{Time Case B [s] (k=3)} \\\hline
-        10KB  & ...  & ... & ... \\\hline
-        100KB & ...  & ... & ... \\\hline
-        1MB   & ...  & ... & ... \\\hline
-        10MB  & ...  & ... & ... \\\hline
-        100MB & ...  & ... & ... \\\hline
-	\end{tabular}
-	\caption{Measurements}
+    \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+        \hline
+        \cellcolor{lightgray}\textbf{Size} & \cellcolor{lightgray}\textbf{Time Case A [s] (k=2)} & \cellcolor{lightgray}\textbf{Time Case A [s] (k=3)} & \cellcolor{lightgray}\textbf{Time Case B [s] (k=2)} & \cellcolor{lightgray}\textbf{Time Case B [s] (k=3)} \\\hline
+        10KB  & 0.21    & 0.36   & 0.17   & 0.16   \\\hline
+        100KB & 0.46    & 0.48   & 0.18   & 0.20   \\\hline
+        1MB   & 1.65    & 2.21   & 1.31   & 1.02   \\\hline
+        10MB  & 14.31   & 20.04  & 9.59   & 10.02  \\\hline
+        100MB & 144.59  & 203.57 & 109.72 & 111.74 \\\hline
+    \end{tabularx}
+    \caption{Measurements}
 	\label{tab:e2meas}
 \end{table}
+
+For Case A, when $k$ increases, it gives a reasonably increase in time, as the lead has to distribute the data to one additional node. As pridict in equation \ref{eq:e2_lead_A} which depend on $k$.\\
+For Case B, when $k$ increases, there is no significant changes in time, as the lead note, still only have to distribute the data to one other node. As pridict in equation \ref{eq:e2_lead_B} which does not depend on $k$.\\
+Had Case A been tested with $k=1$ it should give about the same as either Case B, for same file size.
