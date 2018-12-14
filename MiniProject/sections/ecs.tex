@@ -1,13 +1,64 @@
 \section{Erasure Coded Storage}
+In the following two schemes is investigated; Case A where the lead node performs the encoding and Case B where the lead node delegates to another node to perform the encoding.\\
+The time to encode and store, can be defined by the number of tolerated failures $k$, the data rate $R$, the size of the file in bits $s$, computation time $T_{process}$, and the time to encode $R_{enc}$ and decode $R_{dec}$.
 
 \subsubsection*{Time to generate redundancy}
-...
+\textit{Case A:} 
+\begin{align}
+    T_{gen} = ...
+\end{align}
+\textit{Case B:} 
+\begin{align}
+    T_{gen} = ...
+\end{align}
 
 \subsubsection*{Time for lead node to finish}
-...
+\textit{Case A:} 
+\begin{align}
+    T_{lead} = R \cdot s + R_{enc} \cdot s + R \cdot ... + T_{process}
+\end{align}
+\textit{Case B:} 
+\begin{align}
+    T_{lead} = 2R \cdot s + T_{process}
+\end{align}
 
 \subsubsection*{Access time}
-...
+\begin{align}
+    T_{access} = R \cdot ... + R_{dec} + R \cdot s
+\end{align}
 
 \subsubsection*{Measurements}
-...
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+        \hline
+        \cellcolor{lightgray}\textbf{Size} & \cellcolor{lightgray}\textbf{Time Case A [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Case A [s] (l=2)} & \cellcolor{lightgray}\textbf{Time Case B [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Case B [s] (l=2)} \\\hline
+        10KB  & 0.25   & 0.43   & ... & ... \\\hline
+        100KB & 0.37   & 0.79   & ... & ... \\\hline
+        1MB   & 1.49   & 2.73   & ... & ... \\\hline
+        10MB  & 13.76  & 22.50  & ... & ... \\\hline
+        100MB & 124.26 & 212.74 & ... & ... \\\hline
+    \end{tabularx}
+    \caption{Measurements, part 1}
+	\label{tab:e3meas1}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
+        \hline
+        \cellcolor{lightgray}\textbf{Size} & \cellcolor{lightgray}\textbf{Time Encode [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Encode [s] (l=2)} & \cellcolor{lightgray}\textbf{Time Decode [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Decode [s] (l=2)} & \cellcolor{lightgray}\textbf{Time Download [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Download [s] (l=2)} \\\hline
+        10KB  & 0.0014 & 0.0014 & ... & ... & ... & ... \\\hline
+        100KB & 0.0042 & 0.0067 & ... & ... & ... & ... \\\hline
+        1MB   & 0.0260 & 0.0751 & ... & ... & ... & ... \\\hline
+        10MB  & 0.3045 & 0.8796 & ... & ... & ... & ... \\\hline
+        100MB & 2.9528 & 8.8063 & ... & ... & ... & ... \\\hline
+    \end{tabularx}
+    \caption{Measurements, part 2}
+	\label{tab:e3meas2}
+\end{table}
+
+Differences in Case A, with different l \\
+Differences in Case B, with different l \\
+Differences between Case A and Case B \\
+Encode variance \\
+Decode variance \\
+Download with different l
