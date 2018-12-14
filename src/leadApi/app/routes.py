@@ -3,15 +3,16 @@ from app import app
 from flask import request, Response
 import requests as req
 import time
-from random import randint
+from random import randint, shuffle
 import kodo_helper
+import json
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 UPLOAD_FOLDER = './uploads'
 
 store = ['http://raspberrypi2.local:5000/api/e2/store','http://raspberrypi3.local:5000/api/e2/store', 'http://raspberrypi4.local:5000/api/e2/store']
 replica = ['http://raspberrypi2.local:5000/api/e2/replicate','http://raspberrypi3.local:5000/api/e2/replicate', 'http://raspberrypi4.local:5000/api/e2/replicate']
-
+download = ['http://raspberrypi2.local:5000/api/e2/download/', ]
 def process(folder, fp):
     print(fp)
     response = req.post(store[0], files={'file':
@@ -31,6 +32,7 @@ def uploadStore(k):
         fp = request.files['file']
         k = int(k)
         for i in range(k):
+            fp.stream.seek(0)
             req.post(store[i], files={'file':
                 (fp.filename, fp.stream,
                 fp.content_type, fp.headers)})
@@ -54,11 +56,13 @@ def uploadReplicate(k):
         fp = request.files['file']
         rand = randint(0,2)
         k = int(k)
-        req.post(replica[rand] + '/' + str(k-1), files={'file':
-            (fp.filename, fp.stream,
-            fp.content_type, fp.headers)}, data = {'hist': [rand]})
+        req.post(replica[rand] + '/' + str(k), files={
+            'data': ('data', json.dumps({'hist': [rand]}), 'application/json'),
+            'file': (fp.filename, fp.stream, fp.content_type, fp.headers) 
+            }
+        )
         end = time.time()
-        return 'Success, time elapsed: ' + str(end - start)+ 's'  
+        return 'Success, time elapsed: ' + str(end - start)+ 's' 
     else:
         return '''
         <!doctype html>
@@ -72,16 +76,30 @@ def uploadReplicate(k):
 
 # Exercise 3: Erasure Code Storage, local
 @app.route('/e3/local/upload/<l>', methods=['GET', 'POST'])
-def uploadReplicate(l):
+def uploadReplicateCodedLocal(l):
     if (request.method == 'POST'):
         start = time.time()
         fp = request.files['file']
-        rand = randint(0,2)
-        req.post(replica[rand], files={'file':
-            (fp.filename, fp.stream,
-            fp.content_type, fp.headers)}, data = {'hist': [rand]})
+        l = int(l)
+        l = (l*l)*2
+        print(l)
+        ned = fp.read()
+        time_enc_start = time.time()
+        data = kodo_helper.encode(ned, l)
+        time_enc_end = time.time()
+        print(len(data))
+        # print(ned in kodo_helper.decode([data[5],data[4],data[0],data[1]],len(ned)))
+        shuffle(data)
+
+        for i in range(0,len(data),3):
+            req.post(store[0], files={
+                 'file': (fp.filename + str(i), data[i], 'application/octet-stream')})
+            req.post(store[1], files={
+                 'file': (fp.filename + str(i+1), data[i+1], 'application/octet-stream')})
+            req.post(store[2], files={
+                 'file': (fp.filename + str(i+2), data[i+2], 'application/octet-stream')})
         end = time.time()
-        return 'Success, time elapsed: ' + str(end - start)+ 's'  
+        return 'Success, time elapsed: ' + str(end - start) + 's' + 'Encoding time: ' + str(time_enc_end - time_enc_start) + 's'  
     else:
         return '''
         <!doctype html>
@@ -92,29 +110,32 @@ def uploadReplicate(l):
         <input type=submit value=Upload>
         </form>
         '''
+def partition (list_in, n):
+    shuffle(list_in)
+    return [list_in[i::n] for i in range(n)]
 # Exercise 3: Erasure Code Storage, distributed
-@app.route('/e3/distributed/upload/<l>', methods=['GET', 'POST'])
-def uploadReplicate(l):
-    if (request.method == 'POST'):
-        start = time.time()
-        fp = request.files['file']
-        rand = randint(0,2)
-        k = int(k)
-        req.post(replica[rand] + '/' + str(k-1), files={'file':
-            (fp.filename, fp.stream,
-            fp.content_type, fp.headers)}, data = {'hist': [rand]})
-        end = time.time()
-        return 'Success, time elapsed: ' + str(end - start)+ 's'  
-    else:
-        return '''
-        <!doctype html>
-        <title>Upload new File</title>
-        <h1>Upload new File</h1>
-        <form method=post enctype=multipart/form-data>
-        <p><input type=file name=file>
-        <input type=submit value=Upload>
-        </form>
-        '''
+# @app.route('/e3/distributed/upload/<l>', methods=['GET', 'POST'])
+# def uploadReplicateCodedDistributed(l):
+#     if (request.method == 'POST'):
+#         start = time.time()
+#         fp = request.files['file']
+#         rand = randint(0,2)
+#         k = int(k)
+#         req.post(replica[rand] + '/' + str(k-1), files={'file':
+#             (fp.filename, fp.stream,
+#             fp.content_type, fp.headers)}, data = {'hist': [rand]})
+#         end = time.time()
+#         return 'Success, time elapsed: ' + str(end - start)+ 's'  
+#     else:
+#         return '''
+#         <!doctype html>
+#         <title>Upload new File</title>
+#         <h1>Upload new File</h1>
+#         <form method=post enctype=multipart/form-data>
+#         <p><input type=file name=file>
+#         <input type=submit value=Upload>
+#         </form>
+#         '''
 
 @app.route('/download', defaults={'directory': None})
 @app.route('/download/<directory>', methods=['GET'])
@@ -141,5 +162,16 @@ def download(directory):
 
 @app.route('/download/<directory>/<filename>', methods=['GET'])
 def downloadFile(directory, filename):
-    f = open(os.path.join(directory, filename), 'rb')
-    return Response(f, mimetype='application/octet-stream')
+    start = time.time()
+    r = req.get('http://raspberrypi2.local:5000/api/e2/download/' + directory + '/' + filename)
+    end = time.time()
+    print(str(end - start) + 's')
+    return Response(r.content, mimetype='application/octet-stream')
+
+@app.route('/download/<directory>/<filename>/<l>', methods=['GET'])
+def downloadFile2(directory, filename, l):
+    start = time.time()
+    r = req.get('http://raspberrypi2.local:5000/api/e2/download/' + directory + '/' + filename)
+    end = time.time()
+    print(str(end - start) + 's')
+    return Response(r.content, mimetype='application/octet-stream')
