@@ -1,10 +1,11 @@
 from app import app
-from flask import Flask, request, Response
+from flask import Flask, request, Response, send_from_directory, stream_with_context
 import os
 import thread
 import requests as req
 from random import randint
 import json
+import kodo_helper
 
 @app.route('/')
 @app.route('/index')
@@ -81,3 +82,29 @@ def replicate_rlnc():
 @app.route('/api/e2/download/<directory>/<filename>', methods=["GET"])
 def download2(directory, filename):
     return Response(open(os.path.join(directory, filename)), mimetype='application/octet-stream')
+
+@app.route('/api/e3/local/download/<directory>/<filename>/<l>', methods=["GET"])
+def download3(directory, filename, l):
+    files = [i for i in os.listdir(directory) if os.path.isfile(os.path.join(directory,i)) and filename in i]
+    print(files)
+    if int(l) == 2:
+        def generate():
+            for i in files:
+                yield open(os.path.join(directory, str(i)), 'rb').read()
+        myGenerator = generate()
+        print(myGenerator)
+        for i in myGenerator:
+            print(i)
+    return Response(stream_with_context(generate()))
+
+@app.route('/api/e3/dist/download/<directory>/<filename>/<l>', methods=["GET"])
+def download4(directory, filename, l):
+    files = [i for i in os.listdir(directory) if os.path.isfile(os.path.join(directory,i)) and filename in i]
+    print(files)
+    if int(l) == 2:
+        fps = []
+        for i in files:
+            fps.append(bytearray(open(os.path.join(directory, i), 'rb').read()))
+        print(len(fps[0]))
+
+    return Response(kodo_helper.decode(fps,10252), mimetype='application/octet-stream')

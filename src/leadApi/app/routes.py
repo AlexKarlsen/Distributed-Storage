@@ -12,7 +12,7 @@ UPLOAD_FOLDER = './uploads'
 
 store = ['http://raspberrypi2.local:5000/api/e2/store','http://raspberrypi3.local:5000/api/e2/store', 'http://raspberrypi4.local:5000/api/e2/store']
 replica = ['http://raspberrypi2.local:5000/api/e2/replicate','http://raspberrypi3.local:5000/api/e2/replicate', 'http://raspberrypi4.local:5000/api/e2/replicate']
-download = ['http://raspberrypi2.local:5000/api/e2/download/', ]
+#download = ['http://raspberrypi2.local:5000/api/e2/download/', ]
 def process(folder, fp):
     print(fp)
     response = req.post(store[0], files={'file':
@@ -168,10 +168,30 @@ def downloadFile(directory, filename):
     print(str(end - start) + 's')
     return Response(r.content, mimetype='application/octet-stream')
 
-@app.route('/download/<directory>/<filename>/<l>', methods=['GET'])
+@app.route('/local/download/<directory>/<filename>/<l>', methods=['GET'])
 def downloadFile2(directory, filename, l):
     start = time.time()
-    r = req.get('http://raspberrypi2.local:5000/api/e2/download/' + directory + '/' + filename)
+    if int(l) == 1:
+        r2 = req.get('http://raspberrypi2.local:5000/api/e3/local/download/' + directory + '/' + filename + '/' + l)
+        r3 = req.get('http://raspberrypi3.local:5000/api/e3/local/download/' + directory + '/' + filename + '/' + l)
+    elif int(l) == 2:
+        r2 = req.get('http://raspberrypi2.local:5000/api/e3/local/download/' + directory + '/' + filename + '/' + l)
+        print(r2.content)
     end = time.time()
     print(str(end - start) + 's')
-    return Response(r.content, mimetype='application/octet-stream')
+    return 'succes'
+    #Response(r.content, mimetype='application/octet-stream')
+
+@app.route('/dist/download/<directory>/<filename>/<l>', methods=['GET'])
+def downloadFile3(directory, filename, l):
+    start = time.time()
+    if int(l) == 1:
+        r2 = req.get('http://raspberrypi2.local:5000/api/e3/dist/download/' + directory + '/' + filename + '/' + l)
+        r3 = req.get('http://raspberrypi3.local:5000/api/e3/dist/download/' + directory + '/' + filename + '/' + l)
+    elif int(l) == 2:
+        r2 = req.get('http://raspberrypi2.local:5000/api/e3/dist/download/' + directory + '/' + filename + '/' + l)
+        print(r2.content)
+    end = time.time()
+    print(str(end - start) + 's')
+    return 'succes'
+    #Response(r.content, mimetype='application/octet-stream')
