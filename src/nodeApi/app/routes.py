@@ -29,35 +29,12 @@ def replicate(replicaNo):
     directory = './replicas/'
     hist = json.load(request.files['data'])
     fp.save(os.path.join(directory, fp.filename))
-
     thread.start_new_thread(store_and_forward, (fp.filename, hist, replicaNo))
-    #fp = request.files['file']
-    #directory = './replicas/'
-    #fp.save(os.path.join(directory, fp.filename))
-    #fp.stream.seek(0)
-    #hist = json.load(request.files['data'])
-    #print('History: {}'.format(hist['hist']))
-    #replicaNo = int(replicaNo)
-    # if (replicaNo > 1):
-    #     rand = randint(0, 2)
-    #     while rand in hist['hist']:
-    #         rand = randint(0, 2)
-    #     hist['hist'].append(rand)
-    #     print('Next node: {}'.format(rand))
-    #     req.post(replica[rand] + '/' + str(replicaNo - 1), files={
-    #         'data': ('data', json.dumps(hist), 'application/json'),
-    #         'file': (fp.filename, fp.stream, fp.content_type, fp.headers)
-    #         }
-    #     )
     return "Success"
 
 def store_and_forward(filename, hist, replicaNo):
     directory = './replicas/'
     fp = open(os.path.join(directory, filename), 'rb')
-    #fp = request.files['file']
-    #hist = json.load(request.files['data'])
-    #fp.save(os.path.join(directory, fp.filename))
-    #fp.stream.seek(0)
     replicaNo = int(replicaNo)
     if (replicaNo > 1):
         rand = randint(0, 2)
@@ -71,14 +48,6 @@ def store_and_forward(filename, hist, replicaNo):
             }
         )
 
-@app.route('/api/e3/store', methods=["POST"])
-def store_rlnc():
-    return 'Success'
-
-@app.route('/api/e3/replicate', methods=["POST"])
-def replicate_rlnc():
-    return "Success"
-
 @app.route('/api/e2/download/<directory>/<filename>', methods=["GET"])
 def download2(directory, filename):
     return Response(open(os.path.join(directory, filename)), mimetype='application/octet-stream')
@@ -86,16 +55,23 @@ def download2(directory, filename):
 @app.route('/api/e3/local/download/<directory>/<filename>/<l>', methods=["GET"])
 def download3(directory, filename, l):
     files = [i for i in os.listdir(directory) if os.path.isfile(os.path.join(directory,i)) and filename in i]
+    filesAsBytes = []
     print(files)
     if int(l) == 2:
-        def generate():
-            for i in files:
-                yield open(os.path.join(directory, str(i)), 'rb').read()
-        myGenerator = generate()
-        print(myGenerator)
-        for i in myGenerator:
+        # def generate():
+        #     for i in files:
+        #         yield open(os.path.join(directory, str(i)), 'rb').read()
+        # myGenerator = generate()
+        # print(myGenerator)
+        # for i in myGenerator:
+        #     print(i)
+        
+        for i in files:
             print(i)
-    return Response(stream_with_context(generate()))
+            filesAsBytes.append(open(os.path.join(directory, str(i)), 'rb').read())
+        #print(filesAsBytes[0])
+        #print(json.dumps(filesAsBytes))
+    return Response(filesAsBytes, mimetype='application/octet-stream')
 
 @app.route('/api/e3/dist/download/<directory>/<filename>/<l>', methods=["GET"])
 def download4(directory, filename, l):

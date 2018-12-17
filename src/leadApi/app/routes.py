@@ -13,6 +13,7 @@ UPLOAD_FOLDER = './uploads'
 store = ['http://raspberrypi2.local:5000/api/e2/store','http://raspberrypi3.local:5000/api/e2/store', 'http://raspberrypi4.local:5000/api/e2/store']
 replica = ['http://raspberrypi2.local:5000/api/e2/replicate','http://raspberrypi3.local:5000/api/e2/replicate', 'http://raspberrypi4.local:5000/api/e2/replicate']
 #download = ['http://raspberrypi2.local:5000/api/e2/download/', ]
+
 def process(folder, fp):
     print(fp)
     response = req.post(store[0], files={'file':
@@ -110,32 +111,6 @@ def uploadReplicateCodedLocal(l):
         <input type=submit value=Upload>
         </form>
         '''
-def partition (list_in, n):
-    shuffle(list_in)
-    return [list_in[i::n] for i in range(n)]
-# Exercise 3: Erasure Code Storage, distributed
-# @app.route('/e3/distributed/upload/<l>', methods=['GET', 'POST'])
-# def uploadReplicateCodedDistributed(l):
-#     if (request.method == 'POST'):
-#         start = time.time()
-#         fp = request.files['file']
-#         rand = randint(0,2)
-#         k = int(k)
-#         req.post(replica[rand] + '/' + str(k-1), files={'file':
-#             (fp.filename, fp.stream,
-#             fp.content_type, fp.headers)}, data = {'hist': [rand]})
-#         end = time.time()
-#         return 'Success, time elapsed: ' + str(end - start)+ 's'  
-#     else:
-#         return '''
-#         <!doctype html>
-#         <title>Upload new File</title>
-#         <h1>Upload new File</h1>
-#         <form method=post enctype=multipart/form-data>
-#         <p><input type=file name=file>
-#         <input type=submit value=Upload>
-#         </form>
-#         '''
 
 @app.route('/download', defaults={'directory': None})
 @app.route('/download/<directory>', methods=['GET'])
@@ -172,15 +147,24 @@ def downloadFile(directory, filename):
 def downloadFile2(directory, filename, l):
     start = time.time()
     if int(l) == 1:
-        r2 = req.get('http://raspberrypi2.local:5000/api/e3/local/download/' + directory + '/' + filename + '/' + l)
-        r3 = req.get('http://raspberrypi3.local:5000/api/e3/local/download/' + directory + '/' + filename + '/' + l)
+        r1 = req.get('http://raspberrypi2.local:5000/api/e2/download/' + directory + '/' + filename + '0')
+        r2 = req.get('http://raspberrypi2.local:5000/api/e2/download/' + directory + '/' + filename + '3')
+        r3 = req.get('http://raspberrypi3.local:5000/api/e2/download/' + directory + '/' + filename + '1')
+        r4 = req.get('http://raspberrypi3.local:5000/api/e2/download/' + directory + '/' + filename + '4')
     elif int(l) == 2:
-        r2 = req.get('http://raspberrypi2.local:5000/api/e3/local/download/' + directory + '/' + filename + '/' + l)
-        print(r2.content)
+        r1 = req.get('http://raspberrypi2.local:5000/api/e2/download/' + directory + '/' + filename + '0')
+        r2 = req.get('http://raspberrypi2.local:5000/api/e2/download/' + directory + '/' + filename + '3')
+        r3 = req.get('http://raspberrypi2.local:5000/api/e2/download/' + directory + '/' + filename + '6')
+        r4 = req.get('http://raspberrypi2.local:5000/api/e2/download/' + directory + '/' + filename + '9')
+    
+    decode_time_start = time.time()
+    data = kodo_helper.decode([bytearray(r1.content), bytearray(r2.content), bytearray(r3.content), bytearray(r4.content)], len(r1.content) + len(r2.content) + len(r3.content) + len(r4.content))
+    decode_time_end = time.time()
+
+    print('Decoding time: {}'.format(decode_time_end - decode_time_start))
     end = time.time()
-    print(str(end - start) + 's')
-    return 'succes'
-    #Response(r.content, mimetype='application/octet-stream')
+    print('Download time: ' + str(end - start) + 's')
+    return Response(data , mimetype="application/octet-stream")
 
 @app.route('/dist/download/<directory>/<filename>/<l>', methods=['GET'])
 def downloadFile3(directory, filename, l):
