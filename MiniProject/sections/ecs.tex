@@ -1,5 +1,6 @@
 \section{Erasure Coded Storage} \label{sec:ec}
 In the following two schemes is investigated; Case A where the lead node performs the encoding and Case B where the lead node delegates to another node to perform the encoding.\\
+For both cases Reed-Solomon error correction is used, where the data parts are direcly saved with a variable amount of parity. The data is always seperated into four parts, for the direct datapart. To tolerated one node failure, parity is 50\% overhead (i.e. 2 blocks) and for two node failues, parity is 200\% (i.e. 8 blocks).\\
 The time to encode and store, can be defined by the number of tolerated failures $k$, the data rate $R$, the size of the file in bits $s$, computation time $T_{process}$, and the time to encode $R_{enc}$ and decode $R_{dec}$.
 
 \subsubsection*{Time to generate redundancy}
@@ -46,11 +47,11 @@ The time to encode and store, can be defined by the number of tolerated failures
     \begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
         \hline
         \cellcolor{lightgray}\textbf{Size} & \cellcolor{lightgray}\textbf{Time Encode [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Encode [s] (l=2)} & \cellcolor{lightgray}\textbf{Time Decode [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Decode [s] (l=2)} & \cellcolor{lightgray}\textbf{Time Download [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Download [s] (l=2)} \\\hline
-        10KB  & 0.0014 & 0.0014 & ... & ... & ... & ... \\\hline
-        100KB & 0.0042 & 0.0067 & ... & ... & ... & ... \\\hline
-        1MB   & 0.0260 & 0.0751 & ... & ... & ... & ... \\\hline
-        10MB  & 0.3045 & 0.8796 & ... & ... & ... & ... \\\hline
-        100MB & 2.9528 & 8.8063 & ... & ... & ... & ... \\\hline
+        10KB  & 0.0014 & 0.0014 & 0.0009 & 0.0009 & 0.14  & 0.14  \\\hline
+        100KB & 0.0042 & 0.0067 & 0.0019 & 0.0030 & 0.27  & 0.28  \\\hline
+        1MB   & 0.0260 & 0.0751 & 0.0207 & 0.0264 & 0.59  & 0.57  \\\hline
+        10MB  & 0.3045 & 0.8796 & 0.1612 & 0.2829 & 4.83  & 4.61  \\\hline
+        100MB & 2.9528 & 8.8063 & 1.4422 & 2.1291 & 42.94 & 39.80 \\\hline
     \end{tabularx}
     \caption{Measurements, part 2}
 	\label{tab:e3meas2}
