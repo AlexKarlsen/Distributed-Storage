@@ -1,5 +1,6 @@
 \section{Erasure Coded Storage} \label{sec:ec}
 In the following two schemes is investigated; Case A where the lead node performs the encoding and Case B where the lead node delegates to another node to perform the encoding.\\
+For both cases Reed-Solomon error correction is used, where the data parts are direcly saved with a variable amount of parity. The code is always seperated into four parts, for the direct datapart. To tolerated one node failure, parity is 50\% overhead (e.i. 2 blocks) and for two node failues, parity is 200\% (e.i. 8 blocks).\\
 The time to encode and store, can be defined by the number of tolerated failures $k$, the data rate $R$, the size of the file in bits $s$, computation time $T_{process}$, and the time to encode $R_{enc}$ and decode $R_{dec}$.
 
 \subsubsection*{Time to generate redundancy}
