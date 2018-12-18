@@ -1,5 +1,6 @@
 \section{Discussion} \label{sec:dis}
 
+We used randomly generated txt files of sizes; 10KB, 100KB, 1MB, 10MB and 100MB, as it is hard to find image files with these exact sizes. \\
 We have had implementation issues using the Flask framework. 
 Flask does not inherently support asynchronous requests, which would have been useful when implementing case B for both strategies. We tried different approaches to free the lead node forwarding the file. Unfortunately, we found no other way than saving the file locally. We then spawn a thread, that reads the file and forwards it to another node.\\
 We had a lot of trouble with the scheme, where the lead node delegate the task of distributing the files to another node. We would have liked to send a file and some data. The data should be a log of which nodes, that has already received the files to avoid looping. We ended up sending the data along with the file in the same file object section of the request. We would have liked to send it in the data or json section, however we did not receive both the file and data. \\
