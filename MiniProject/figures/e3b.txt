@@ -1,0 +1,19 @@
+@startuml
+skinparam handwritten false
+skinparam monochrome true
+skinparam shadowing false
+hide footbox
+
+actor User
+participant Lead
+participant Node as "Node[1]"
+
+User -> Lead: Upload file
+
+Lead -> Node: Forward file
+Node -> Node: Spawn thread
+Node --> Lead: Response
+
+Lead --> User: Return
+
+@enduml

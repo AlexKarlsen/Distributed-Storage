@@ -1,6 +1,23 @@
 \section{Replication} \label{sec:repl}
-In the following two schemes is investigated; Case A where the lead node distributes the file directly to all nodes and Case B where the lead node delegates to other nodes to generate the next replicas, as a more Hadoop like manner. \\
+In the following two cases are investigated; Case A where the lead node distributes the file directly to all nodes and Case B where the lead node delegates to another node to generate the next replica, in a more Hadoop like manner. These cases are illustrated in figure \ref{fig:repl}. \\
 The time to generate all replicas, can be defined by the number of replicas $k$, the data rate $R$, the size of the file in bits $s$ and computation time $T_{process}$. 
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{.35\textwidth}
+        %\centering
+        \includegraphics[width=\textwidth]{figures/e2a.png}
+        \caption{Case A}
+    \end{subfigure}
+    \hspace{30px}
+    \begin{subfigure}{.42\textwidth}
+        %\centering
+        \includegraphics[width=\textwidth]{figures/e2b.png}
+        \caption{Case B}
+    \end{subfigure}
+    \caption{Replication Strategy}
+    \label{fig:repl}
+\end{figure}
 
 \subsubsection*{Time to generate all replicas}
 \textit{Case A:} 
@@ -12,7 +29,7 @@ The time to generate all replicas, can be defined by the number of replicas $k$,
     T_{gen} = (k+1)\cdot R\cdot s + T_{process} \label{eq:e2_rep_B}
 \end{align}
 
-The time to to generate all the replicas for both schemes are more or less the same, since the amount of data to be transferred is the same. 
+The time to to generate all the replicas for both cases are more or less the same, since the amount of data to be transferred is the same. 
 
 \subsubsection*{Time for lead node to finish}
 \textit{Case A:}
@@ -23,6 +40,7 @@ The time to to generate all the replicas for both schemes are more or less the s
 \begin{align} 
     T_{lead} = 2R \cdot s + T_{process} \label{eq:e2_lead_B}
 \end{align}
+
 The lead node is freed earlier in the latter case, given $k > 1$. In this case it only has to send to one other node, instead of $k$.
 
 \subsubsection*{Access time}
@@ -45,7 +63,7 @@ The lead node is freed earlier in the latter case, given $k > 1$. In this case i
 	\label{tab:e2meas}
 \end{table}
 
-For Case A, when $k$ increases, it gives a reasonably increase in time, as the lead has to distribute the data to one additional node. As pridict in equation \ref{eq:e2_lead_A} which depend on $k$.\\
-For Case B, when $k$ increases, there is no significant changes in time, as the lead note, still only have to distribute the data to one other node. As pridict in equation \ref{eq:e2_lead_B} which does not depend on $k$.\\
-Differences between Case A and Case B. Case A takes longer time for the lead node to be freed, since it has to send the replica to 2 or 3 other, whereas for Case B it always has to only send it to one other node.\\
+For Case A, when $k$ increases, it gives a reasonably increase in time, as the lead has to distribute the data to one additional node. As stated in equation \ref{eq:e2_lead_A} which depend on $k$.\\
+For Case B, when $k$ increases, there is no significant changes in time, as the lead note, still only have to distribute the data to one other node. As stated in equation \ref{eq:e2_lead_B} which does not depend on $k$.\\
+Differences between Case A and Case B. Case A takes longer time for the lead node to be freed, since it has to send the replica to 2 or 3 other, whereas for Case B it always has to only send it to one node.\\
 Had Case A been tested with $k=1$ it should give about the same as either Case B, for same file size.
