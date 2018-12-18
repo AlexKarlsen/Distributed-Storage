@@ -1,7 +1,14 @@
 \section{Erasure Coded Storage} \label{sec:ec}
 In the following two schemes is investigated; Case A where the lead node performs the encoding and Case B where the lead node delegates to another node to perform the encoding.\\
-For both cases Reed-Solomon error correction is used, where the data parts are direcly saved with a variable amount of parity. The data is always seperated into four parts, for the direct datapart. To tolerated one node failure, parity is 50\% overhead (i.e. 2 blocks) and for two node failues, parity is 200\% (i.e. 8 blocks).\\
+For both cases systematic Reed-Solomon error correction is used, where the data parts are direcly saved with a variable amount of parity. The data is always seperated into four parts, for the direct datapart. To tolerated one node failure, parity is 50\% overhead (i.e. 2 blocks) and for two node failues, parity is 200\% (i.e. 8 blocks). This is illustrated in figure \ref{fig:rs_sys}\\
 The time to encode and store, can be defined by the number of tolerated failures $l$, the data rate $R$, the size of the file in bits $s$, computation time $T_{process}$, and the time to encode $R_{enc}$ and decode $R_{dec}$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/rs_sys}
+	\caption{Systematic Reed-Solomon}
+	\label{fig:rs_sys}
+\end{figure}
 
 \subsubsection*{Time to generate redundancy}
 \textit{Case A:} 
@@ -59,7 +66,7 @@ The time to encode and store, can be defined by the number of tolerated failures
 
 Differences in Case A, with different l. Higher l takes longer time, as the lead has to encode and distribute more blocks. \\
 Differences in Case B, with different l. Makes no difference, as the lead node, always have to send the raw file once. \\
-Differences between Case A and Case B. Case A has takes longer time for the lead node to be freed, since it has to do the encoding and sending the overhead.
+Differences between Case A and Case B. Case A takes longer time for the lead node to be freed, since it has to do the encoding and sending the overhead.
 Encode variance with different l. Takes slightly longer with higher l, as more encoded blocks have to be generated, especially with bigger files\\
 Decode variance with different l. Takes slightly longer with higher l, as the data is more encoded. Bigger files also takes longer \\
 Download with different l. Makes no difference as the same amount of blocks have to fetched from nodes (i.e. 4) and the decode time is nearly negligible compared to the transport time.

@@ -1,3 +1,5 @@
 \section{Conclusion} \label{sec:conc}
 
-...
+In this mini project, two different distributed storage strategies has been implemented and tested. A strategy where the files are replicated to the nodes, and a strategy where the erasure code is used. For both strategies two cases has been tried out. Case A, where the lead node performes the required processing, and Case B where the lead node just forwards the file to another node, to do the processing.\\
+No matter which of the two strategies is chose, Case B is always quickest, with respect to when the lead node is free. \\
+If Case A should be chosen, which strategy is the quickest, to free the lead node, depends on the node loss that should be tolerated. Since the encoding strategy starts out the best, but increases more rapidly as more node failures are to be tolerated.\\
