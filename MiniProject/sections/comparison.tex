@@ -1,3 +1,41 @@
 \section{Cross Comparison} \label{sec:comp}
 
-...
+\subsection*{$l = 1$ vs. $k = 2$}
+
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+        \hline
+        \cellcolor{lightgray}\textbf{Size} & \cellcolor{lightgray}\textbf{Exercise 2 Case A [s]} & \cellcolor{lightgray}\textbf{Exercise 2 Case B [s]} & \cellcolor{lightgray}\textbf{Exercise 3 Case A [s]} & \cellcolor{lightgray}\textbf{Exercise 3 Case B [s]}  \\\hline
+        10KB  & 0.21    & 0.17   & 0.25   & 0.06   \\\hline
+        100KB & 0.46    & 0.18   & 0.37   & 0.18   \\\hline
+        1MB   & 1.65    & 1.31   & 1.49   & 1.09   \\\hline
+        10MB  & 14.31   & 9.59   & 13.76  & 11.50  \\\hline
+        100MB & 144.59  & 109.72 & 124.26 & 112.17 \\\hline
+    \end{tabularx}
+    \caption{Measurements}
+	\label{tab:e2meas}
+\end{table}
+
+Case A is fastest for the encoding strategy. For the replication strategy the entire file has to be send to $k=2$ other nodes for a total of $2Rs$, whereas in the encoding strategy half the file size is sent to 3 nodes for a total of $3 \cdot \frac{1}{2} \cdot Rs + R_{enc}s = 1\frac{1}{2} \cdot Rs + R_{enc}s$ \\
+Case B for either strategy are roughly the same as the lead node receives the files and forward it to another node. \\
+In both strategies case B performs best, because the lead node has to transmit less data, as described in sections \ref{sec:repl} and \ref{sec:ec}.
+
+\subsection*{$l = 2$ vs. $k = 3$}
+
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+        \hline
+        \cellcolor{lightgray}\textbf{Size} & \cellcolor{lightgray}\textbf{Exercise 2 Case A [s]} & \cellcolor{lightgray}\textbf{Exercise 2 Case B [s]} & \cellcolor{lightgray}\textbf{Exercise 3 Case A [s]} & \cellcolor{lightgray}\textbf{Exercise 3 Case B [s]}  \\\hline
+        10KB  & 0.36    & 0.16   & 0.43   & 0.06   \\\hline
+        100KB & 0.48    & 0.20   & 0.79   & 0.18   \\\hline
+        1MB   & 2.21    & 1.02   & 2.73   & 1.13   \\\hline
+        10MB  & 20.04   & 10.02  & 22.50  & 11.21  \\\hline
+        100MB & 203.57  & 111.74 & 212.74 & 120.30 \\\hline
+    \end{tabularx}
+    \caption{Measurements}
+	\label{tab:e2meas}
+\end{table}
+
+Case A is fastest for the replication strategy. For the replication strategy the entire file has to be send to $k=3$ other nodes for a total of $3Rs$, whereas in the encoding strategy the entire file size is sent to 3 nodes for a total of $3Rs + R_{enc}s$ \\
+Case B for either strategy are roughly the same as the lead node receives the files and forward it to another node. \\
+In both strategies case B performs best, because the lead node has to transmit less data, as described in sections \ref{sec:repl} and \ref{sec:ec}.

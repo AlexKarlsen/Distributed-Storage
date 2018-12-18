@@ -1,22 +1,22 @@
 \section{Erasure Coded Storage} \label{sec:ec}
 In the following two schemes is investigated; Case A where the lead node performs the encoding and Case B where the lead node delegates to another node to perform the encoding.\\
 For both cases Reed-Solomon error correction is used, where the data parts are direcly saved with a variable amount of parity. The data is always seperated into four parts, for the direct datapart. To tolerated one node failure, parity is 50\% overhead (i.e. 2 blocks) and for two node failues, parity is 200\% (i.e. 8 blocks).\\
-The time to encode and store, can be defined by the number of tolerated failures $k$, the data rate $R$, the size of the file in bits $s$, computation time $T_{process}$, and the time to encode $R_{enc}$ and decode $R_{dec}$.
+The time to encode and store, can be defined by the number of tolerated failures $l$, the data rate $R$, the size of the file in bits $s$, computation time $T_{process}$, and the time to encode $R_{enc}$ and decode $R_{dec}$.
 
 \subsubsection*{Time to generate redundancy}
 \textit{Case A:} 
 \begin{align}
-    T_{gen} = ...
+    T_{gen} = R \cdot s + R_{enc} \cdot s + 2l^{2} \cdot R \cdot block\_size + T_{process}
 \end{align}
 \textit{Case B:} 
 \begin{align}
-    T_{gen} = ...
+    T_{gen} = 2R \cdot s + R_{enc} \cdot s + 2l^{2} \cdot R \cdot block\_size \cdot \frac{2}{3} + T_{process}
 \end{align}
 
 \subsubsection*{Time for lead node to finish}
 \textit{Case A:} 
 \begin{align}
-    T_{lead} = R \cdot s + R_{enc} \cdot s + R \cdot ... + T_{process}
+    T_{lead} = R \cdot s + R_{enc} \cdot s + 2l^{2} \cdot R \cdot block\_size + T_{process}
 \end{align}
 \textit{Case B:} 
 \begin{align}
@@ -25,7 +25,7 @@ The time to encode and store, can be defined by the number of tolerated failures
 
 \subsubsection*{Access time}
 \begin{align}
-    T_{access} = R \cdot ... + R_{dec} + R \cdot s
+    T_{access} = 2l^{2} \cdot R \cdot block\_size + R_{dec} \cdot s + R \cdot s + T_{process}
 \end{align}
 
 \subsubsection*{Measurements}
@@ -59,7 +59,7 @@ The time to encode and store, can be defined by the number of tolerated failures
 
 Differences in Case A, with different l. Higher l takes longer time, as the lead has to encode and distribute more blocks. \\
 Differences in Case B, with different l. Makes no difference, as the lead node, always have to send the raw file once. \\
-Differences between Case A and Case B \\
-Encode variance with different l. Takes slighlty longer with higher l, as more encoded blocks have to be generated, especially with bigger files\\
-Decode variance with different l. Takes slighlty longer with higher l, as the data is more encoded. Bigger files also takes longer \\
-Download with different l. Makes no difference as the same amount of blocks have to fetched from nodes (i.e. 4) and the decode time is nearly neglicable compared to the transport time.
+Differences between Case A and Case B. Case A has takes longer time for the lead node to be freed, since it has to do the encoding and sending the overhead.
+Encode variance with different l. Takes slightly longer with higher l, as more encoded blocks have to be generated, especially with bigger files\\
+Decode variance with different l. Takes slightly longer with higher l, as the data is more encoded. Bigger files also takes longer \\
+Download with different l. Makes no difference as the same amount of blocks have to fetched from nodes (i.e. 4) and the decode time is nearly negligible compared to the transport time.
