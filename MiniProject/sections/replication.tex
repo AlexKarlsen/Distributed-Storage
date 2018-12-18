@@ -47,4 +47,5 @@ The lead node is freed earlier in the latter case, given $k > 1$. In this case i
 
 For Case A, when $k$ increases, it gives a reasonably increase in time, as the lead has to distribute the data to one additional node. As pridict in equation \ref{eq:e2_lead_A} which depend on $k$.\\
 For Case B, when $k$ increases, there is no significant changes in time, as the lead note, still only have to distribute the data to one other node. As pridict in equation \ref{eq:e2_lead_B} which does not depend on $k$.\\
+Differences between Case A and Case B. Case A takes longer time for the lead node to be freed, since it has to send the replica to 2 or 3 other, whereas for Case B it always has to only send it to one other node.\\
 Had Case A been tested with $k=1$ it should give about the same as either Case B, for same file size.
