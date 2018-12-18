@@ -33,11 +33,11 @@ The time to encode and store, can be defined by the number of tolerated failures
     \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
         \hline
         \cellcolor{lightgray}\textbf{Size} & \cellcolor{lightgray}\textbf{Time Case A [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Case A [s] (l=2)} & \cellcolor{lightgray}\textbf{Time Case B [s] (l=1)} & \cellcolor{lightgray}\textbf{Time Case B [s] (l=2)} \\\hline
-        10KB  & 0.25   & 0.43   & ... & ... \\\hline
-        100KB & 0.37   & 0.79   & ... & ... \\\hline
-        1MB   & 1.49   & 2.73   & ... & ... \\\hline
-        10MB  & 13.76  & 22.50  & ... & ... \\\hline
-        100MB & 124.26 & 212.74 & ... & ... \\\hline
+        10KB  & 0.25   & 0.43   & 0.06   & 0.06   \\\hline
+        100KB & 0.37   & 0.79   & 0.18   & 0.18   \\\hline
+        1MB   & 1.49   & 2.73   & 1.09   & 1.13   \\\hline
+        10MB  & 13.76  & 22.50  & 11.50  & 11.21  \\\hline
+        100MB & 124.26 & 212.74 & 112.17 & 120.30 \\\hline
     \end{tabularx}
     \caption{Measurements, part 1}
 	\label{tab:e3meas1}
@@ -57,9 +57,9 @@ The time to encode and store, can be defined by the number of tolerated failures
 	\label{tab:e3meas2}
 \end{table}
 
-Differences in Case A, with different l \\
-Differences in Case B, with different l \\
+Differences in Case A, with different l. Higher l takes longer time, as the lead has to encode and distribute more blocks. \\
+Differences in Case B, with different l. Makes no difference, as the lead node, always have to send the raw file once. \\
 Differences between Case A and Case B \\
-Encode variance \\
-Decode variance \\
-Download with different l
+Encode variance with different l. Takes slighlty longer with higher l, as more encoded blocks have to be generated, especially with bigger files\\
+Decode variance with different l. Takes slighlty longer with higher l, as the data is more encoded. Bigger files also takes longer \\
+Download with different l. Makes no difference as the same amount of blocks have to fetched from nodes (i.e. 4) and the decode time is nearly neglicable compared to the transport time.
