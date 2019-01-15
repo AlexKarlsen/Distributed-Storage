@@ -1,0 +1,1 @@
+pandoc exam/template.md  exam/exam.md exam/q1.md exam/q2.md exam/q3.md exam/q4.md exam/q5.md exam/q6.md exam/q8.md exam/q9.md exam/q10.md -o DistributedStorageCourseNotes.pdf
